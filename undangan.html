@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding of Putra & Putri</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'wedding-gold': '#B8860B', /* Dark Goldenrod */
+                        'wedding-dark': '#1a1a1a',
+                        'wedding-pink': '#fff0f5', /* Lavender Blush */
+                        'wedding-green': '#556b2f', /* Dark Olive Green */
+                    },
+                    fontFamily: {
+                        'script': ['"Great Vibes"', 'cursive'],
+                        'serif': ['"Cormorant Garamond"', 'serif'],
+                        'sans': ['"Montserrat"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles */
+        body {
+            overflow-x: hidden;
+            /* GANTI BACKGROUND UTAMA DI SINI (Tekstur Kertas) */
+            background-color: #fffaf0;
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+        }
+        
+        /* GANTI BACKGROUND COVER DI SINI */
+        .cover-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Gambar Bunga Estetik */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1516832626938-12c8b74c0e66?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+            color: white;
+            text-align: center;
+        }
+
+        .cover-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #B8860B;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(184, 134, 11, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(184, 134, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(184, 134, 11, 0); }
+        }
+
+        .spin {
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Foto Bulat dengan Border Bunga Simple */
+        .photo-frame {
+            border: 4px solid #B8860B;
+            padding: 5px;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        /* Dekorasi Sudut Bunga (CSS Only shape) */
+        .corner-decoration {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://www.transparenttextures.com/patterns/flower-trail.png'); /* Contoh pattern */
+            opacity: 0.1;
+            z-index: 0;
+        }
+        .top-left { top: 0; left: 0; transform: rotate(0deg); }
+        .bottom-right { bottom: 0; right: 0; transform: rotate(180deg); }
+
+    </style>
+</head>
+<body class="text-wedding-dark antialiased" id="main-body">
+
+    <!-- Audio Background -->
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=wedding-cinematic-113945.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="music-control" class="music-btn hidden" onclick="toggleMusic()">
+        <i class="fas fa-compact-disc spin"></i>
+    </div>
+
+    <!-- 1. COVER / OPENING MODAL -->
+    <div id="cover" class="cover-overlay">
+        <div class="p-6 max-w-md w-full backdrop-blur-sm bg-black/20 rounded-xl border border-white/20" data-aos="zoom-in" data-aos-duration="1500">
+            <h3 class="font-sans tracking-widest uppercase text-sm mb-2 text-gray-200">The Wedding Of</h3>
+            <h1 class="font-script text-7xl mb-4 text-white drop-shadow-lg">Elang & Regita</h1>
+            <p class="font-serif italic mb-8 text-gray-100">"Kamu adalah jawaban dari setiap doa-doaku..."</p>
+            
+            <div class="mb-8">
+                <p class="font-sans text-xs mb-2 text-gray-300">Kepada Yth.</p>
+                <div class="bg-white/90 text-wedding-dark p-3 rounded shadow-lg">
+                    <h2 class="font-serif text-xl font-bold">Tamu Undangan</h2>
+                </div>
+            </div>
+
+            <button onclick="openInvitation()" class="bg-wedding-gold hover:bg-yellow-700 text-white font-sans font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center gap-2 mx-auto border-2 border-white/30">
+                <i class="fas fa-envelope-open"></i> Buka Undangan
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="min-h-screen relative">
+        <div class="corner-decoration top-left"></div>
+        <div class="corner-decoration bottom-right"></div>
+        
+        <!-- 2. HERO SECTION -->
+        <section id="home" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+            <!-- GANTI GAMBAR UTAMA DI SINI -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Background" class="w-full h-full object-cover opacity-50 blur-[2px]">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#fffaf0] via-transparent to-transparent"></div>
+            </div>
+
+            <div class="relative z-10 p-4 mt-20">
+                <p class="font-serif text-xl mb-2 text-wedding-green tracking-widest" data-aos="fade-down">Wedding Invitation</p>
+                <h1 class="font-script text-8xl md:text-9xl text-wedding-gold mb-2 drop-shadow-sm" data-aos="zoom-in" data-aos-delay="300">Elang & Regita</h1>
+                <p class="font-sans text-sm md:text-base text-gray-600 mb-8" data-aos="fade-up" data-aos-delay="500">
+                    Senin, 23 Agustus 2033
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. QUOTE / SALAM -->
+        <section class="py-20 px-6 text-center max-w-4xl mx-auto relative z-10">
+            <div class="text-wedding-gold text-4xl mb-4"><i class="fas fa-dove"></i></div>
+            
+            <p class="font-serif text-lg md:text-2xl leading-relaxed text-gray-700 italic" data-aos="fade-up">
+                "Dan segala sesuatu Kami ciptakan berpasang-pasangan supaya kamu mengingat kebesaran Allah."
+            </p>
+            <p class="mt-4 font-sans text-sm font-bold text-wedding-green">(QS. Adz-Dzariyat: 49)</p>
+        </section>
+
+        <!-- 4. MEMPELAI (COUPLE) - Style Bulat -->
+        <section class="py-10 px-4 bg-white/50 backdrop-blur-sm mx-4 rounded-3xl border border-wedding-gold/20 shadow-lg mb-10">
+            <div class="container mx-auto">
+                <div class="flex flex-col md:flex-row justify-center items-center gap-10 md:gap-20">
+                    
+                    <!-- Groom -->
+                    <div class="text-center w-full max-w-xs" data-aos="fade-right">
+                        <div class="photo-frame mb-4 shadow-xl relative">
+                             <!-- Ganti Foto Pria -->
+                            <img src="c:\Users\LOQ\OneDrive\Pictures\foto saye\WhatsApp Image 2026-02-01 at 15.41.53 (1).jpeg" alt="Groom" class="photo-img">
+                        </div>
+                        <h2 class="font-script text-4xl text-wedding-gold mb-1">Elang Samudra Pasifik</h2>
+                        <p class="font-sans text-xs text-gray-500 uppercase tracking-widest mb-2">Samudera_07</p>
+                        <a href="#" class="inline-block bg-wedding-green text-white px-3 py-1 rounded-full text-xs hover:bg-green-700"><i class="fab fa-instagram"></i> @putra_w</a>
+                    </div>
+
+                    <div class="font-script text-5xl text-gray-400" data-aos="zoom-in">&</div>
+
+                    <!-- Bride -->
+                    <div class="text-center w-full max-w-xs" data-aos="fade-left">
+                        <div class="photo-frame mb-4 shadow-xl">
+                            <!-- Ganti Foto Wanita -->
+                            <img src="c:\Users\LOQ\OneDrive\Pictures\foto saye\WhatsApp Image 2026-02-10 at 16.56.30.jpeg" alt="Bride" class="photo-img">
+                        </div>
+                        <h2 class="font-script text-4xl text-wedding-gold mb-1">Regita Cahya Puspa Wihartono</h2>
+                        <p class="font-sans text-xs text-gray-500 uppercase tracking-widest mb-2">reyagita_</p>
+                        <a href="#" class="inline-block bg-wedding-green text-white px-3 py-1 rounded-full text-xs hover:bg-green-700"><i class="fab fa-instagram"></i> @putri_i</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. EVENT DETAILS -->
+        <section class="py-20 bg-wedding-green text-white relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute -top-20 -left-20 w-64 h-64 bg-wedding-gold rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+            <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-wedding-gold rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+            
+            <div class="container mx-auto px-4 relative z-10 text-center">
+                <h2 class="font-script text-6xl mb-12 drop-shadow-lg" data-aos="fade-up">Save The Date</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Akad Card -->
+                    <div class="bg-white text-wedding-dark p-8 rounded-tr-3xl rounded-bl-3xl shadow-2xl border-l-4 border-wedding-gold" data-aos="flip-left">
+                        <h3 class="font-serif text-3xl font-bold mb-2 text-wedding-gold">Akad Nikah</h3>
+                        <p class="font-sans font-bold text-lg mb-4">Senin, 23 Agustus 2033</p>
+                        <div class="flex items-center justify-center gap-2 text-gray-500 mb-4">
+                            <i class="far fa-clock"></i> 08:00 WIB - Selesai
+                        </div>
+                        <p class="text-sm text-gray-600">Masjid Agung Al-Ikhlas Asemdoyong<br>Jl. Kenangan No. 123</p>
+                        <a href="#" class="mt-4 inline-block text-xs font-bold text-wedding-green hover:underline">LIHAT LOKASI ></a>
+                    </div>
+
+                    <!-- Resepsi Card -->
+                    <div class="bg-white text-wedding-dark p-8 rounded-tl-3xl rounded-br-3xl shadow-2xl border-r-4 border-wedding-gold" data-aos="flip-right" data-aos-delay="200">
+                        <h3 class="font-serif text-3xl font-bold mb-2 text-wedding-gold">Resepsi</h3>
+                        <p class="font-sans font-bold text-lg mb-4">Senin, 23 Agustus 2033</p>
+                        <div class="flex items-center justify-center gap-2 text-gray-500 mb-4">
+                            <i class="far fa-clock"></i> 11:00 WIB - Selesai
+                        </div>
+                        <p class="text-sm text-gray-600">Grand Ballroom Hotel Mulia<br>Jl. Kebahagiaan No. 88</p>
+                         <a href="#" class="mt-4 inline-block text-xs font-bold text-wedding-green hover:underline">LIHAT LOKASI ></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. COUNTDOWN (Bulat & Estetik) -->
+        <section class="py-16 bg-[#fffaf0] text-center">
+            <div class="container mx-auto px-4">
+                <h2 class="font-script text-3xl mb-8 text-wedding-gold" data-aos="fade-up">Menuju Hari Bahagia</h2>
+                <div class="flex justify-center gap-4 md:gap-8 font-serif" id="countdown" data-aos="zoom-in">
+                    <!-- JS will populate this -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. GALLERY (Layout Mosaic) -->
+        <section class="py-20 px-4 container mx-auto bg-wedding-pink/20 rounded-3xl mb-10">
+            <h2 class="font-script text-5xl text-center text-wedding-gold mb-12" data-aos="fade-up">Gallery</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div class="col-span-1 row-span-2 overflow-hidden rounded-lg shadow-md" data-aos="fade-up">
+                    <img src="c:\Users\LOQ\OneDrive\Pictures\foto saye\WhatsApp Image 2026-02-10 at 16.53.28.jpeg" class="w-full h-full object-cover transform hover:scale-105 transition duration-500">
+                </div>
+                <div class="col-span-1 overflow-hidden rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="100">
+                    <img src="c:\Users\LOQ\OneDrive\Pictures\foto saye\WhatsApp Image 2026-02-10 at 16.53.22.jpeg" class="w-full h-full object-cover transform hover:scale-105 transition duration-500">
+                </div>
+                <div class="col-span-1 overflow-hidden rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="200">
+                    <img src="c:\Users\LOQ\OneDrive\Pictures\foto saye\WhatsApp Image 2026-02-01 at 15.41.52.jpeg" class="w-full h-full object-cover transform hover:scale-105 transition duration-500">
+                </div>
+                <div class="col-span-1 row-span-2 overflow-hidden rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="300">
+                    <img src="c:\Users\LOQ\OneDrive\Pictures\foto saye\WhatsApp Image 2026-02-10 at 16.57.30.jpeg" class="w-full h-full object-cover transform hover:scale-105 transition duration-500">
+                </div>
+                <div class="col-span-2 overflow-hidden rounded-lg shadow-md" data-aos="fade-up" data-aos-delay="400">
+                    <img src="c:\Users\LOQ\OneDrive\Pictures\foto saye\WhatsApp Image 2026-02-10 at 16.58.15.jpeg" class="w-full h-40 object-cover object-center transform hover:scale-105 transition duration-500">
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. RSVP & WISHES -->
+        <section class="py-20 bg-wedding-green text-white relative">
+            <div class="container mx-auto px-4 max-w-2xl">
+                <div class="bg-white/10 backdrop-blur-md shadow-2xl rounded-2xl p-8 border border-white/20" data-aos="fade-up">
+                    <h2 class="font-script text-4xl text-center mb-2">RSVP</h2>
+                    <p class="text-center text-xs mb-8 opacity-80">Mohon konfirmasi kehadiran Anda</p>
+                    
+                    <form onsubmit="submitForm(event)" class="space-y-4">
+                        <input type="text" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-gray-200 focus:outline-none focus:bg-white/30 transition" placeholder="Nama Lengkap" required>
+                        
+                        <select class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:bg-white/30">
+                            <option class="text-gray-800" value="Hadir">Hadir</option>
+                            <option class="text-gray-800" value="Tidak Hadir">Tidak Hadir</option>
+                        </select>
+                        
+                        <textarea class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-gray-200 focus:outline-none focus:bg-white/30 h-24" placeholder="Ucapan..."></textarea>
+
+                        <button type="submit" class="w-full bg-wedding-gold hover:bg-yellow-600 text-white font-bold py-3 rounded-lg transition transform hover:scale-105 shadow-lg">
+                            Kirim Konfirmasi
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-[#1a1a1a] text-white py-12 text-center border-t-4 border-wedding-gold">
+            <div class="font-script text-4xl mb-4 text-wedding-gold">Putra & Putri</div>
+            <p class="font-sans text-xs opacity-60">Created with Love by Gemini AI</p>
+        </footer>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // 1. Initialize AOS
+        AOS.init({ duration: 1000, once: true });
+
+        // 2. Open Invitation Logic
+        const cover = document.getElementById('cover');
+        const mainBody = document.getElementById('main-body');
+        const audio = document.getElementById('bg-music');
+        const musicControl = document.getElementById('music-control');
+        const musicIcon = musicControl.querySelector('i');
+        let isPlaying = false;
+
+        function openInvitation() {
+            cover.classList.add('cover-hidden');
+            mainBody.style.overflowY = 'auto';
+            playMusic();
+            musicControl.classList.remove('hidden');
+        }
+
+        // 3. Music Logic
+        function playMusic() {
+            audio.play();
+            isPlaying = true;
+            musicIcon.classList.remove('fa-play');
+            musicIcon.classList.add('fa-compact-disc', 'spin');
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.classList.remove('fa-compact-disc', 'spin');
+                musicIcon.classList.add('fa-play');
+                isPlaying = false;
+            } else {
+                playMusic();
+            }
+        }
+
+        // 4. Countdown Timer
+        const targetDate = new Date("Oct 20, 2024 08:00:00").getTime();
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Tampilan Countdown Bulat
+            const circleClass = "flex flex-col items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-white rounded-full shadow-lg border-2 border-wedding-gold/20";
+            
+            document.getElementById("countdown").innerHTML = `
+                <div class="${circleClass}">
+                    <div class="text-xl md:text-2xl font-bold text-wedding-gold">${days}</div>
+                    <div class="text-[10px] uppercase text-gray-500">Hari</div>
+                </div>
+                <div class="${circleClass}">
+                    <div class="text-xl md:text-2xl font-bold text-wedding-gold">${hours}</div>
+                    <div class="text-[10px] uppercase text-gray-500">Jam</div>
+                </div>
+                <div class="${circleClass}">
+                    <div class="text-xl md:text-2xl font-bold text-wedding-gold">${minutes}</div>
+                    <div class="text-[10px] uppercase text-gray-500">Menit</div>
+                </div>
+                <div class="${circleClass}">
+                    <div class="text-xl md:text-2xl font-bold text-wedding-gold">${seconds}</div>
+                    <div class="text-[10px] uppercase text-gray-500">Detik</div>
+                </div>
+            `;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "Acara Telah Selesai";
+            }
+        }, 1000);
+
+        function submitForm(event) {
+            event.preventDefault();
+            alert("Konfirmasi Terkirim!");
+        }
+    </script>
+</body>
+</html>
